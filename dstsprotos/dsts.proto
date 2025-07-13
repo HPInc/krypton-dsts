@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "common.proto";
+import "device.proto";
+import "signing_key.proto";
+import "enrollment_token.proto";
+import "app_auth.proto";
+
+option go_package = "github.com/HPInc/krypton-dsts/dstsprotos";
+package krypton.dsts;
+
+
+// RPCs exposed by the Device Security Token Service.
+service DeviceSTS {
+
+  // Device lifecycle management RPCs.
+  rpc CreateDevice (CreateDeviceRequest) returns (CreateDeviceResponse) {}
+  rpc GetDevice (GetDeviceRequest) returns (GetDeviceResponse) {}
+  rpc ListDevices (ListDevicesRequest) returns (ListDevicesResponse) {}
+  rpc UpdateDevice (UpdateDeviceRequest) returns (UpdateDeviceResponse) {}
+  rpc DeleteDevice (DeleteDeviceRequest) returns (DeleteDeviceResponse) {}
+
+  // Device STS - token service RPCs.
+  rpc GetSigningKey (GetSigningKeyRequest) returns (GetSigningKeyResponse) {}
+  rpc CreateEnrollmentToken (CreateEnrollmentTokenRequest) returns (CreateEnrollmentTokenResponse) {}
+  rpc GetEnrollmentToken (GetEnrollmentTokenRequest) returns (GetEnrollmentTokenResponse) {}
+  rpc DeleteEnrollmentToken (DeleteEnrollmentTokenRequest) returns (DeleteEnrollmentTokenResponse) {}
+  rpc ValidateEnrollmentToken (ValidateEnrollmentTokenRequest) returns (ValidateEnrollmentTokenResponse) {}
+
+  // Health check/uptime check RPC.
+  rpc Ping (PingRequest) returns (PingResponse) {}
+
+  // App authentication RPCs.
+  rpc GetAppAuthenticationChallenge (AppAuthenticationChallengeRequest) 
+    returns (AppAuthenticationChallengeResponse) {}
+  rpc AuthenticateApp (AppAuthenticationRequest) returns (AppAuthenticationResponse) {}
+}

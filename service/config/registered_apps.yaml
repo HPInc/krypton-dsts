@@ -1,0 +1,16 @@
+# Applications that are registered with the DSTS.
+# /krypton/scheduler_id_rsa.pub
+registered_apps:
+# Uncomment the following lines to add an entry for a registered app.
+# Create one entry per registered app.
+# - id: ""
+#   name: ""
+#   enabled: true
+#   public_key_file: ""
+
+# Sample - the scheduler app is registered with the DSTS using the database
+# schema file.
+#  - id: "bebc5cbf-acc0-431f-8c4e-c582dc2489e2"
+#    name: "Krypton scheduler"
+#    enabled: true
+#    public_key_file: ""

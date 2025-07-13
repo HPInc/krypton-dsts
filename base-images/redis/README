@@ -1,0 +1,38 @@
+# Krypton cache docker image
+Krypton cache is a redis server docker image.
+
+## Build the docker image
+To build the docker image for the cache, execute the following commands:
+
+```
+make
+```
+
+This should create a docker image using redis. Config file is overridden for external server access and password enabled access by default. Password is managed via a docker env variable named `CACHE_PASSWORD`. If you need to start `redis-cli`, supply the `REDISCLI_AUTH` environment variable set to the same value as the `CACHE_PASSWORD`. Look in `make test` target for an example.
+
+
+## Starting the cache server
+Cache server is created using `make`. To test the container standalone, use `make test` or do `docker run` as shown below:
+```
+docker run -dit -eGET_SECRETS=false -p6379:6379 --name dsts-cache \
+-e CACHE_PASSWORD=dstscache \
+-e REDISCLI_AUTH=dstscache \
+krypton-cache:latest
+```
+
+You can now test this from a terminal using `docker exec -it dsts-cache redis-cli ping`. If everything is okay, you should see `PONG` as a response. As the test server is launched using `-d`, you can continue to test in this manner or drop into a shell and do further tests as shown below.
+
+## working locally
+Use redis-cli (cmd line) or [redis commander ui](https://redislabs.com/blog/so-youre-looking-for-the-redis-gui/). use localhost:6379 and dsts-cache
+
+```
+$ docker exec -it dsts-cache /bin/sh
+/data # redis-cli
+127.0.0.1:6379> ping
+PONG
+127.0.0.1:6379> set hello world
+OK
+127.0.0.1:6379> get hello
+"world"
+127.0.0.1:6379>
+```

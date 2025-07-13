@@ -1,0 +1,6 @@
+# Exclude everything
+*
+
+# Include the following:
+!redis.conf
+!start_redis.sh

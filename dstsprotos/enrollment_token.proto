@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/HPInc/krypton-dsts/dstsprotos";
+package krypton.dsts;
+
+
+message EnrollmentToken {
+  // Enrollment token
+  string token = 1;
+
+  // Enrollment token issued timestamp.
+  google.protobuf.Timestamp issued_time = 2;
+
+  // Enrollment token expiry timestamp.
+  google.protobuf.Timestamp expiry_time = 3;
+}
+
+message CreateEnrollmentTokenRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the CreateEnrollmentTokenRequest message.
+  string version = 2;
+
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 3;
+
+  // Enrollment token lifetime configured for the tenant at the ES.
+  // 0 or not specified -> 30 days
+  // -1 -> 5 years (max)
+  // other values (1 - 5 years) -> specified value
+  int32 token_lifetime_days = 4;
+}
+
+message CreateEnrollmentTokenResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // Enrollment token.
+  EnrollmentToken token = 2;
+}
+
+message GetEnrollmentTokenRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the GetEnrollmentTokenRequest message.
+  string version = 2;
+
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 3;
+}
+
+message GetEnrollmentTokenResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // Enrollment token.
+  EnrollmentToken token = 2;
+}
+
+message DeleteEnrollmentTokenRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the DeleteEnrollmentTokenRequest message.
+  string version = 2;
+
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 3;
+}
+
+message DeleteEnrollmentTokenResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // Deletion timestamp.
+  google.protobuf.Timestamp delete_time = 2;
+}
+
+message ValidateEnrollmentTokenRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the DeleteEnrollmentTokenRequest message.
+  string version = 2;
+
+  // Enrollment token.
+  string token = 3;
+}
+
+message ValidateEnrollmentTokenResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // Unique identifier for the tenant (Tenant ID) to which the enrollment
+  // token belongs.
+  string tid = 2;
+
+  // Specifies whether the presented enrollment token is valid.
+  bool is_valid = 3;
+}

@@ -1,0 +1,1 @@
+-- Empty initialization script. The DB schema is initialized by the service.

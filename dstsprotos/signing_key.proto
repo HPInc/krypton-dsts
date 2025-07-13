@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+import "common.proto";
+
+option go_package = "github.com/HPInc/krypton-dsts/dstsprotos";
+package krypton.dsts;
+
+
+message JSONWebKey {
+  // Key Type - RSA
+  string kty = 1;
+
+  // Signing algorithm
+  string alg = 2;
+
+  // Key usage - Signing
+  string use = 3;
+
+  // Unique identifier for the signing key
+  string kid = 4;
+
+  // N value of the RSA public key used for signing tokens.
+  string n = 5;
+
+  // E value of the RSA public key used for signing tokens.
+  string e = 6;
+}
+
+message GetSigningKeyRequest {
+}
+
+message GetSigningKeyResponse {
+  // Common RPC response header
+  DstsResponseHeader header = 1;
+
+  // Token signing key - JWK
+  repeated JSONWebKey signing_key = 2;
+}

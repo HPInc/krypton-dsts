@@ -1,0 +1,189 @@
+syntax = "proto3";
+
+import "common.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/HPInc/krypton-dsts/dstsprotos";
+package krypton.dsts;
+
+
+message Device {
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 1;
+
+  // Unique identifier issued to the device.
+  string device_id = 2;
+
+  // Specifies whether the device is currently enabled.
+  bool is_enabled = 3;
+
+  // Specifies whether the device has been reported lost/stolen.
+  bool is_lost = 4;
+
+  // The thumbprint associated with the device certificate.
+  string certificate_thumbprint = 5;
+
+  // Device certificate issue timestamp.
+  google.protobuf.Timestamp issued_time = 6;
+
+  // Device certificate expiry timestamp.
+  google.protobuf.Timestamp expiry_time = 7;
+
+  // The device management service that is used to manage this device.
+  string management_service = 8;
+
+  // The hardware hash of the device.
+  string hardware_hash = 9;
+}
+
+message CreateDeviceRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the CreateDeviceCertificateRequest message.
+  string version = 2;
+
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 3;
+
+  // Unique identifier issued to the device.
+  string device_id = 4;
+
+  // Device certificate (DER bytes).
+  bytes device_certificate = 5;
+
+  // The device management service that is used to manage this device.
+  string management_service = 6;
+
+  // The hardware hash of the device being added.
+  string hardware_hash = 7;
+}
+
+message CreateDeviceResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 2;
+}
+
+message GetDeviceRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the GetDeviceRequest message.
+  string version = 2;
+
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 3;
+
+  // Unique identifier issued to the device.
+  string device_id = 4;
+}
+
+message GetDeviceResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // Information about the device.
+  Device device = 2;
+}
+
+message ListDevicesRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the ListDevicesRequest message.
+  string version = 2;
+
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 3;
+
+  // An optional search filter to be matched when returning results.
+  string filter = 4;
+
+  // The number of devices to return per page.
+  int32 page_size = 5;
+
+  // Support for paginated queries. Copy the next_page value from the previous
+  // page of results. Other request fields are unchanged for subsequent requests.
+  int32 page_number = 6;
+  }
+
+message ListDevicesResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // List of devices.
+  repeated Device devices = 2;
+
+  // Support for paginated queries.
+  int32 next_page = 3;
+}
+
+// The following immutable attributes cannot be modified for a device, once
+// it has been created:
+// - Device ID
+// - Tenant ID
+// The certificate thumbprint is generated from the new device certificate.
+message DeviceUpdates {
+  // Specifies whether the device is currently enabled.
+  bool is_enabled = 1;
+
+  // Specifies whether the device has been reported lost/stolen.
+  bool is_lost = 2;
+
+  // Device certificate (DER bytes)
+  bytes device_certificate = 3;
+}
+
+message UpdateDeviceRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the UpdateDeviceRequest message.
+  string version = 2;
+
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 3;
+
+  // Unique identifier issued to the device.
+  string device_id = 4;
+
+  // The update mask applies updates to the device.
+  google.protobuf.FieldMask update_mask = 5;
+
+  // Fields to update for the device.
+  DeviceUpdates update = 6;
+}
+
+message UpdateDeviceResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // Update timestamp.
+  google.protobuf.Timestamp update_time = 2;
+}
+
+message DeleteDeviceRequest {
+  // Common request header including protocol version & request identifier.
+  DstsRequestHeader header = 1;
+
+  // Version of the DeleteDeviceRequest message.
+  string version = 2;
+
+  // Unique identifier for the tenant (Tenant ID).
+  string tid = 3;
+
+  // Unique identifier issued to the device.
+  string device_id = 4;
+}
+
+message DeleteDeviceResponse {
+  // Common response header including protocol version & request identifier.
+  DstsResponseHeader header = 1;
+
+  // Deletion timestamp.
+  google.protobuf.Timestamp delete_time = 2;
+}

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  krypton-dsts:
+    image: krypton-dsts
+    hostname: ${DSTS}.${DOMAIN}
+    container_name: ${DSTS}.${DOMAIN}
+    networks:
+      backend:
+        aliases:
+          - ${DSTS}.${DOMAIN}
+    ports:
+      - '7000:7000'
+      - '7001:7001'
+    environment:
+      - GRPC_GO_LOG_VERBOSITY_LEVEL=99
+      - GO_DEBUG="http2debug=2"
+      - GRPC_TRACE="all"
+      - GRPC_GO_LOG_SEVERITY_LEVEL="info"
+      - DSTS_DB_HOST=${DB}.${DOMAIN}
+      - DSTS_CACHE_HOST=${CACHE}.${DOMAIN}
+      - DSTS_DB_PASSWORD=${DB_PASSWORD}
+      - DSTS_CACHE_PASSWORD=${CACHE_PASSWORD}
+      - TEST_MODE="enabled"
+    tty: true
+networks:
+  backend:
+    driver: bridge

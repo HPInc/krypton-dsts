@@ -1,0 +1,1 @@
+-- The initial database schema is irreversible, so this file remains empty.
