@@ -1,33 +1,31 @@
-version: '3'
-
 services:
   krypton-db:
     image: ghcr.io/hpinc/krypton/krypton-db
     hostname: ${DB}.${DOMAIN}
     container_name: ${DB}.${DOMAIN}
     ports:
-      - ${DB_PORT}:${DB_PORT}
+    - ${DB_PORT}:${DB_PORT}
     networks:
       backend:
         aliases:
-          - ${DB}.${DOMAIN}
+        - ${DB}.${DOMAIN}
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    - POSTGRES_DB=${DB_NAME}
+    - POSTGRES_USER=${DB_USER}
+    - POSTGRES_PASSWORD=${DB_PASSWORD}
     tty: true
   cache:
     image: ghcr.io/hpinc/krypton/krypton-cache
     hostname: ${CACHE}.${DOMAIN}
     container_name: ${CACHE}.${DOMAIN}
     ports:
-      - ${CACHE_PORT}:${CACHE_PORT}
+    - ${CACHE_PORT}:${CACHE_PORT}
     networks:
       backend:
         aliases:
-          - ${CACHE}.${DOMAIN}
+        - ${CACHE}.${DOMAIN}
     environment:
-      - CACHE_PASSWORD=${CACHE_PASSWORD}
+    - CACHE_PASSWORD=${CACHE_PASSWORD}
     tty: true
 networks:
   backend:
