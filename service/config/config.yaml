@@ -2,10 +2,10 @@
 
 # Server configuration.
 server:
-  host: "dsts"
+  host: dsts
   rpc_port: 7000
   rest_port: 7001
-  registered_app_keys: "" # Location of the folder where public keys 
+  registered_app_keys: '' # Location of the folder where public keys 
                           # for registered apps can be found.
 
   # Specifies whether to log all incoming REST requests to the debug log.
@@ -16,21 +16,21 @@ server:
 # Database configuration. The database password is retrieved from the secret
 # store configured for the service, when the device STS is started up.
 database:
-  db_hostname: "dsts-db"      # Location of the device database.
+  db_hostname: dsts-db        # Location of the device database.
   db_port: 5432               # Port at which the database is available.
-  db_name: "devicedb"         # The name of the DSTS devices database.
-  user: "krypton"             # User account to access the database.
-  schema: "/go/bin/schema"    # Location of schema migration scripts.
+  db_name: devicedb           # The name of the DSTS devices database.
+  user: krypton               # User account to access the database.
+  schema: /go/bin/schema      # Location of schema migration scripts.
   migrate_enabled: true       # Whether to enable database schema migration.
   debug_enabled: true         # Whether to enable debug logging for database calls.
   max_open_connections: 0     # Maximum number of open SQL connections. 0 -> (num of cores * 5)
-  ssl_mode: "disable"         # Postgres SSL mode (disable, verify-ca OR verify-full)
-  ssl_root_cert: ""           # Name of the PEM file containing the root CA cert for SSL.
+  ssl_mode: disable           # Postgres SSL mode (disable, verify-ca OR verify-full)
+  ssl_root_cert: ''           # Name of the PEM file containing the root CA cert for SSL.
 
 # Cache configuration.
 cache:
   enabled: true                # Whether device caching is enabled.
-  cache_hostname: "dsts-cache" # Location of the device cache.
+  cache_hostname: dsts-cache   # Location of the device cache.
   cache_port: 6379             # Port at which the cache is available.
   cache_db: 0                  # Redis database number to use for caching.
 
@@ -39,15 +39,15 @@ cache:
 logging:
   # Logging level to be used. Valid values of this setting are:
   # "debug", "info", "warning", "error", "panic", "fatal"
-  log_level: "info"
+  log_level: info
 
 # Applications that are registered with the DSTS.
 # /krypton/scheduler_id_rsa.pub
 registered_apps:
-  - id: "bebc5cbf-acc0-431f-8c4e-c582dc2489e2"
-    name: "Krypton scheduler"
-    enabled: true
-    public_key_file: ""
-    public_key_env: "DSTS_APP_SCHEDULER_KEY_FILE"
+- id: bebc5cbf-acc0-431f-8c4e-c582dc2489e2
+  name: Krypton scheduler
+  enabled: true
+  public_key_file: ''
+  public_key_env: DSTS_APP_SCHEDULER_KEY_FILE
 
 test_mode: true

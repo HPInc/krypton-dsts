@@ -1,27 +1,25 @@
-version: '3'
-
 services:
   test:
     image: ghcr.io/hpinc/krypton/krypton-go-builder
     hostname: ${TEST}.${DOMAIN}
     container_name: ${TEST}.${DOMAIN}
     ports:
-      - '7000:7000'
-      - '7001:7001'
+    - 7000:7000
+    - 7001:7001
     networks:
-      - backend
+    - backend
     environment:
-      - GRPC_GO_LOG_VERBOSITY_LEVEL=99
-      - GO_DEBUG="http2debug=2"
-      - GRPC_TRACE="all"
-      - GRPC_GO_LOG_SEVERITY_LEVEL="info"
-      - DSTS_DB_HOST=${DB}.${DOMAIN}
-      - DSTS_CACHE_HOST=${CACHE}.${DOMAIN}
-      - DSTS_DB_PASSWORD=${DB_PASSWORD}
-      - DSTS_CACHE_PASSWORD=${CACHE_PASSWORD}
-      - TEST_MODE="enabled"
+    - GRPC_GO_LOG_VERBOSITY_LEVEL=99
+    - GO_DEBUG="http2debug=2"
+    - GRPC_TRACE="all"
+    - GRPC_GO_LOG_SEVERITY_LEVEL="info"
+    - DSTS_DB_HOST=${DB}.${DOMAIN}
+    - DSTS_CACHE_HOST=${CACHE}.${DOMAIN}
+    - DSTS_DB_PASSWORD=${DB_PASSWORD}
+    - DSTS_CACHE_PASSWORD=${CACHE_PASSWORD}
+    - TEST_MODE="enabled"
     volumes:
-      - ../../../krypton-dsts:/go/src/krypton-dsts
+    - ../../../krypton-dsts:/go/src/krypton-dsts
     working_dir: /go/src/krypton-dsts
     command: make -C service service-unit-tests
     tty: true
