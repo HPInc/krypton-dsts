@@ -1,5 +1,0 @@
-# Exclude everything
-*
-
-# Include the following:
-!sql-scripts/initdb.sql

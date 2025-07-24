@@ -3,38 +3,27 @@ The Krypton Device Security Token Service (STS) also referred to as the Krypton 
 
 The DSTS has the following network interfaces:
  - A REST (HTTP) endpoint - used primary for health checks, collecting metrics and for device authentication.
- - A gRPC endpoint - used for many device lifecycle management operations such as creating, modifying and deleting devices, signing keys and enrollment tokens. For a list of the operations exposed by the gRPC endpoint, view the dsts.proto file within the ```dsprotos``` folder.
-
-
-## Base images
-There is a folder called ```base-images``` at the root of the repository. This folder includes dockerfiles for all base images required for the DSTS service including:
-1. ```krypton-go-builder``` - An Alpine Linux based docker image that can be used to build the Krypton Go micro-services. It includes a working Go environment and the protoc compiler and other dependencies required for building and running unit tests for the service.
-2. ```krypton-go-base``` - A minimal Alpine Linux docker image that is used to run the Krypton services.
-3. ```postgres``` - A docker image for the PostgreSQL server that is used as a database for various Krypton services including the DSTS. This is provided for local development and testing purposes. You can use a managed database service in the cloud or spin up a PostgreSQL instance on a VM in production environments.
-4. ```redis``` - A docker image for Redis server which is used by various Krypton services for caching purposes. This is provided for local development and testing purposes. You can use a managed caching service in the cloud or spin up a Redis instance on a VM in production environments.
-
-**NOTE:** These docker images are published to the GHCR (Github Container Registry) docker repository so they can be used by other Krypton service Github repositories.
+ - A gRPC endpoint - used for many device lifecycle management operations such as creating, modifying and deleting devices, signing keys and enrollment tokens. For a list of the operations exposed by the gRPC endpoint, view the ```dsts.proto``` file within the ```dsprotos``` folder.
 
 
 ## Build instructions
-Builds use docker to create an isolated and repeatable build environment. You need to have docker and make installed on your Linux machine.
+
+### Pre-requisite: docker base images
+The base images required for this service are in the [Krypton Utilities - krypton-utils](https://github.com/HPInc/krypton-utils) Github repository. Make any required changes such as upgrading to newer docker base images, or updating dependencies in the ```krypton-utils``` repository. The CI for that repository will publish new updated base images to the docker registry.
+
+**NOTE:** The docker base images are published to the [GHCR (Github Container Registry) docker repository](https://github.com/orgs/HPInc/packages) so they can be used by other Krypton service Github repositories.
+
+
+### Build the DSTS docker image
+Builds use Docker to create an isolated and repeatable build environment. You need to have ```docker``` and ```make``` installed on your Linux machine.
 
 To build, type the following commands at the root of the repository:
 
-1. Build the docker images required for building the Krypton DSTS.
-```
-make docker-deps
-```
-
-2. Build the DSTS service docker image
 ```
 make docker-image
 ```
 
-Alternately you can type ```make all``` to perform both steps at once.
-
-
-## Execute unit-tests
+### Execute unit-tests
 Unit testing also uses a docker environment. To run unit tests, type the following command at the root of the repository:
 
 ```

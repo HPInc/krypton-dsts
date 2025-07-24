@@ -1,13 +1,15 @@
 all: docker-image
 
-# Build docker dependencies such as the Go builder and base images.
-docker-deps:
-	make -C base-images build
+# Docker dependencies required such as the Go builder and base images 
+# will be downloaded from the Krypton utilities docker repository.
 
 # Build all the docker images required for the DSTS service. This includes
 # the database, cache and the DSTS micro-service itself.
-docker-image: docker-deps
+docker-image:
 	make -C service docker-image
+	
+clean:
+	make -C service clean
 
 # Run unit tests for the DSTS service in a docker-ized environment.
 test:

@@ -22,4 +22,4 @@ jobs:
 
     - name: Cleanup
       if: always()
-      run: make -C service clean && docker logout
+      run: make clean && docker logout
